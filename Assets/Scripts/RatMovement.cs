@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class RatMovement : MonoBehaviour {
+public class RatMovement : NetworkBehaviour{
 
 	public float destArea;
 	public float timeTillChangeDest;

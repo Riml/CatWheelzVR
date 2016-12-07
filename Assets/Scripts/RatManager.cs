@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class RatManager : MonoBehaviour {
+public class RatManager : NetworkBehaviour {
 
 	public GameObject rat;  
 	public float spawnTime;
@@ -21,6 +22,9 @@ public class RatManager : MonoBehaviour {
 
 	void SpawnRat(){
 		spawnPointIndex = Random.Range (0, spawnPoints.Length);
-		Instantiate (rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
-	}
+
+		GameObject enemy = (GameObject)Instantiate (rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+
+        NetworkServer.Spawn(enemy);
+    }
 }
