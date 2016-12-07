@@ -12,7 +12,7 @@ public class tank : MonoBehaviour {
     public Vector3 MoveVector { get; set; }
 	// Use this for initialization
 	private void Start () {
-        thisrigidbody = gameObject.GetComponent<Rigidbody>();
+        thisrigidbody = gameObject.AddComponent<Rigidbody>();
         thisrigidbody.maxAngularVelocity = terminalRotationSpeed;
         thisrigidbody.drag = drag;
 

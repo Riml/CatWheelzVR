@@ -11,18 +11,18 @@ public class RatMovement : NetworkBehaviour{
 
 	Transform targetDest;
 	Vector3 rngDest;
-	UnityEngine.AI.NavMeshHit pingPos;
+	NavMeshHit pingPos;
 
 	Transform player; 
 	float distFromPlayer;
 	float timer;
-	UnityEngine.AI.NavMeshAgent nav;  
+	NavMeshAgent nav;  
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		timer = timeTillChangeDest;
-		nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
+		nav = GetComponent <NavMeshAgent> ();
 	}
 	
 	// Update is called once per frame
@@ -47,7 +47,7 @@ public class RatMovement : NetworkBehaviour{
 	void Stroll(){
 		if (timer >= timeTillChangeDest) {
 			rngDest = transform.position + (Random.insideUnitSphere * destArea);
-			UnityEngine.AI.NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
+			NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
 			timer = 0;
 		}
 
@@ -60,7 +60,7 @@ public class RatMovement : NetworkBehaviour{
 		transform.Translate(Vector3.forward * runAwaySpeed * Time.deltaTime);
 
 		rngDest = (transform.position - player.position) + (Random.insideUnitSphere * destArea);
-		UnityEngine.AI.NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
+		NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
 
 		nav.SetDestination(pingPos.position);
 	}
