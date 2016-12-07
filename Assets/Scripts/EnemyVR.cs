@@ -6,7 +6,7 @@ public class EnemyVR : NetworkBehaviour {
 
 
     private bool inAim = false;
-
+    
     [SyncVar]
     public bool dead = false;
 
@@ -59,15 +59,8 @@ public class EnemyVR : NetworkBehaviour {
 
             Network.Destroy(GetComponent<NetworkView>().viewID);
         }
-    }
-
-   
-
-  
-
-   
-
-  
+    }  
+      
 
     public void SoDead() {
         this.gameObject.GetComponent<Renderer>().material.color = Color.grey;
