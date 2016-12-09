@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class GlobalData : NetworkBehaviour
+
+public class GlobalData : MonoBehaviour
 {
+    public bool VRMode = false;
+    public GameObject GVR;
 
-    [SyncVar]
-    public float score = 0;
-    
+      
     // Use this for initialization
 	void Start () {
     

@@ -9,11 +9,11 @@ public class PlayerShooting : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(BeamsOfDeath);
+        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(CmdBeamsOfDeath);
 
     }
-
-    public void BeamsOfDeath() {
+    [Command]
+    public void CmdBeamsOfDeath() {
 
         GameObject laser = (GameObject)Instantiate(laserGun, Vector3.zero, Quaternion.identity);
         NetworkServer.Spawn(laser);

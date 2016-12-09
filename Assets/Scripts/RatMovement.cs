@@ -9,6 +9,8 @@ public class RatMovement : NetworkBehaviour{
 	public float runAwayDist;
 	public float runAwaySpeed;
 
+    private GlobalData globalData;
+
 	Transform targetDest;
 	Vector3 rngDest;
 	NavMeshHit pingPos;
@@ -20,14 +22,21 @@ public class RatMovement : NetworkBehaviour{
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player").transform;
+        globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
+
+        if (globalData.VRMode)
+            return;
+
+        player = GameObject.FindGameObjectWithTag ("Player").transform;
 		timer = timeTillChangeDest;
 		nav = GetComponent <NavMeshAgent> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		CheckAiStage ();
+        if (globalData.VRMode)
+            return;
+        CheckAiStage ();
 	}
 
 	void CheckAiStage(){
