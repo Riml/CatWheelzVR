@@ -25,7 +25,12 @@ public class RatMovement : NetworkBehaviour{
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
 
         if (globalData.VRMode)
+        {
+            this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             return;
+
+        }
+            
 
         player = GameObject.FindGameObjectWithTag ("Player").transform;
 		timer = timeTillChangeDest;

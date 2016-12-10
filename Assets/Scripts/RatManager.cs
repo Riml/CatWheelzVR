@@ -21,10 +21,20 @@ public class RatManager : NetworkBehaviour {
 	}
 
 	void SpawnRat(){
-		spawnPointIndex = Random.Range (0, spawnPoints.Length);
+        if (isServer)
+        {
+            spawnPointIndex = Random.Range(0, spawnPoints.Length);
 
-		GameObject enemy = (GameObject)Instantiate (rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+            GameObject enemy = (GameObject)Instantiate(rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+            NetworkServer.Spawn(enemy);
+        }
+    }
 
-        NetworkServer.Spawn(enemy);
+    public void DestroyRat(NetworkInstanceId netID)
+    {
+        if (!isServer)
+            return;
+        GameObject go = NetworkServer.FindLocalObject(netID);
+        NetworkServer.Destroy(go);
     }
 }

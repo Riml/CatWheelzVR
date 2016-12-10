@@ -12,17 +12,24 @@ public class tank : MonoBehaviour {
     public Vector3 MoveVector { get; set; }
 	// Use this for initialization
 	private void Start () {
-        thisrigidbody = gameObject.GetComponent<Rigidbody>();
-        thisrigidbody.maxAngularVelocity = terminalRotationSpeed;
-        thisrigidbody.drag = drag;
+        //thisrigidbody = gameObject.GetComponent<Rigidbody>();
+        //thisrigidbody.maxAngularVelocity = terminalRotationSpeed;
+        //thisrigidbody.drag = drag;
 
     }
 	
 	// Update is called once per frame
 	private void Update () {
-        MoveVector = PoolInput();
 
-        Move();
+        var x = joystick.Horizontal() * Time.deltaTime * 150.0f;
+        var z = joystick.Vertical() * Time.deltaTime * moveSpeed;
+
+        transform.Rotate(0, x, 0);
+        transform.Translate(0, 0, z);
+
+        //MoveVector = PoolInput();
+
+        //Move();
 	}
 
    private void Move()

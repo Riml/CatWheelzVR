@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class RatHealth : MonoBehaviour {
-
+public class RatHealth : NetworkBehaviour
+{
     private EnemyVR networkScript;
 
 	// Use this for initialization
@@ -12,16 +13,20 @@ public class RatHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    
+        CheckNetworkStatus();
 	}
 
     void CheckNetworkStatus() {
         if (networkScript.dead == true) {
+            //NetworkServer.UnSpawn(gameObject);
+            NetworkServer.Destroy(gameObject);
             Destroy(gameObject);
+            //NetworkServer.UnSpawn(gameObject);
         }
     }
 
     void OnCollisionEnter(Collision collision) {
         networkScript.dead = true;
     }
+
 }

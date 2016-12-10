@@ -12,12 +12,13 @@ public class LaserBullet : MonoBehaviour {
 
     IEnumerator SelfDestruction() {
         yield return new WaitForSeconds(activeLaserTimeLenght);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
 
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("shooting at" +collision.gameObject.name);
         if (collision.gameObject.tag=="Rat")  
             Destroy(gameObject);
     }

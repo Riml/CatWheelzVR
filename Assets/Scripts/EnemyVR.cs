@@ -7,11 +7,10 @@ public class EnemyVR : NetworkBehaviour {
 
     private bool inAim = false;
     
-    [SyncVar]
+    //[SyncVar(hook = "OnDeath")]
     public bool dead = false;
 
-    private bool veryDead = false;
-    private GlobalData globalData;
+     private GlobalData globalData;
 
     // Use this for initialization
     void Start() {
@@ -19,7 +18,7 @@ public class EnemyVR : NetworkBehaviour {
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
         this.gameObject.GetComponent<Renderer>().material.color = Color.white;
         //add handler when player will trigger button
-        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(EnemyInteraction);
+        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(CmdEnemyInteraction);
 
     }
 
@@ -27,12 +26,7 @@ public class EnemyVR : NetworkBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (dead && !veryDead)
-        {
-            veryDead = true;
-            SoDead();
-
-        }
+       
 
 
     }
@@ -43,6 +37,7 @@ public class EnemyVR : NetworkBehaviour {
         inAim = true;
         if (!dead)
             this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerShooting>().ratToKill = this.gameObject;
     }
 
     //Triggered by PointerExit
@@ -53,17 +48,32 @@ public class EnemyVR : NetworkBehaviour {
             this.gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    public void EnemyInteraction() {
+    //[Command]
+    //public void CmdEnemyInteraction() {
 
-        if (inAim) {
+    //    if (inAim) {
+    //        dead = true;
+    //        OnDeath(true);
+    //        RatManager.DestroyRat(this.gameObject);
+    //        //Network.Destroy(GetComponent<NetworkView>().viewID);
+    //    }
+    //}  
 
-            Network.Destroy(GetComponent<NetworkView>().viewID);
+    public void CmdEnemyInteraction()
+    {
+
+        if (inAim)
+        {
+            dead = true;
+            OnDeath(true);
+            //RatManager.DestroyRat(GetComponent<NetworkInstanceId>());
+            //Destroy(this);
         }
-    }  
-      
+    }
 
-    public void SoDead() {
-        this.gameObject.GetComponent<Renderer>().material.color = Color.grey;
 
+    public void OnDeath(bool death) {
+        dead = death;
+        Debug.Log(dead);
     }
 }
