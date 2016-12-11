@@ -21,6 +21,7 @@ public class PlayerSetup : NetworkBehaviour {
         {
             if (isLocalPlayer)
             {
+               
                 VRCamera.enabled = true;
                 reticle.SetActive(true);
                 globalData.GVR.SetActive(true);
@@ -32,7 +33,14 @@ public class PlayerSetup : NetworkBehaviour {
         else {
             if (isLocalPlayer)
             {
-               playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
+
+                this.gameObject.AddComponent<Rigidbody>();
+                this.gameObject.AddComponent<BoxCollider>();
+                
+                playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
+                Camera.main.gameObject.transform.parent = this.gameObject.transform;
+
+
             }
         }
 	
