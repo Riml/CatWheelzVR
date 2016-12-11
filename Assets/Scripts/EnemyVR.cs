@@ -44,7 +44,7 @@ public class EnemyVR : NetworkBehaviour {
                 if (p.GetComponent<PlayerShooting>())
                     if (p.GetComponent<PlayerShooting>().VRPlayer)
                     {
-                        p.GetComponent<PlayerShooting>().TempFunction(this.GetComponent<NetworkIdentity>().netId);
+                        p.GetComponent<PlayerShooting>().KillRequest(this.GetComponent<NetworkIdentity>().netId);
 
                     }
             }
