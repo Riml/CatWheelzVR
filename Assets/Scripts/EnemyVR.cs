@@ -11,12 +11,17 @@ public class EnemyVR : NetworkBehaviour {
     public bool dead = false;
 
      private GlobalData globalData;
+    public AudioClip spawnSound;
+    public AudioClip deathSound;
+
 
     // Use this for initialization
     void Start() {
 
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
         this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(spawnSound);
       
     }
 
@@ -45,6 +50,7 @@ public class EnemyVR : NetworkBehaviour {
                     if (p.GetComponent<PlayerShooting>().VRPlayer)
                     {
                         p.GetComponent<PlayerShooting>().KillRequest(this.GetComponent<NetworkIdentity>().netId);
+                        this.gameObject.GetComponent<AudioSource>().PlayOneShot(deathSound);
 
                     }
             }
