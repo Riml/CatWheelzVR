@@ -18,7 +18,8 @@ public class RatMovement : NetworkBehaviour{
 	Transform player; 
 	float distFromPlayer;
 	float timer;
-	NavMeshAgent nav;  
+	NavMeshAgent nav;
+
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,6 @@ public class RatMovement : NetworkBehaviour{
             return;
 
         }
-            
 
         player = GameObject.FindGameObjectWithTag ("Player").transform;
 		timer = timeTillChangeDest;

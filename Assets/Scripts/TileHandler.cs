@@ -12,9 +12,13 @@ public class TileHandler : MonoBehaviour {
 	public int minTileHeight;
 	public Vector3 tileGenStartPoint;
 	public bool additionalZones;
+	public bool isChild;
 
 	// Use this for initialization
 	void Start () {
+		if (isChild){
+			tileGenStartPoint = transform.position;
+		}
 		generateTiles ();	
 	}
 	
