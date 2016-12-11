@@ -7,20 +7,26 @@ public class PlayerShooting : NetworkBehaviour {
     public GameObject laserPrefab;
     public GameObject laserGun;//from which point we will be shooting
     public GameObject myBody;
-    public Camera mCamera;
+    //public Camera mCamera;
 
-    public GameObject ratToKill;
+    //public NetworkInstanceId ratToKill;
+    private GlobalData globalData;
+    public bool VRPlayer=false;
 
     // Use this for initialization
     void Start () {
-        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(CmdBeamsOfDeath);
+        //MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(TempFunction);
+        globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
+        VRPlayer = globalData.VRMode;
 
 
-        
+
+
 
     }
     [Command]
     public void CmdBeamsOfDeath() {
+      
         Debug.Log("isLocalPlayer2" + isLocalPlayer);
         /*RaycastHit vHit = new RaycastHit();
         Ray ray = mCamera.ScreenPointToRay(Input.mousePosition);
@@ -43,21 +49,36 @@ public class PlayerShooting : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdDestroyRat(GameObject go)
+    public void CmdDestroyRat(NetworkInstanceId ratName)
     {
-        Debug.Log("+++++++++++++++++++++++++++++" + go.name);
-        EnemyVR enemy = go.GetComponent<EnemyVR>();
-        enemy.CmdEnemyInteraction();
+        GameObject go = NetworkServer.FindLocalObject(ratName);
+       
+        go.GetComponent<Renderer>().material.color = Color.black;
+        NetworkServer.Destroy(go);
+
+        //NetworkServer.UnSpawn(go);
+        //Network.Destroy(theRat);
+        //Destroy(theRat);
+        //NetworkServer.Destroy(theRat);
+       
     }
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.Space))
+
+    }
+
+    public void TempFunction(NetworkInstanceId ratToKill) {
+
+        if (!ratToKill.IsEmpty())
         {
-            Debug.Log("isLocalPlayer" + isLocalPlayer);
-            if (!isLocalPlayer)
-                return;
-            CmdBeamsOfDeath();
+            if (isLocalPlayer)
+            {
+                Debug.Log("Sending Kill Command to : " + ratToKill.ToString());
+                CmdDestroyRat(ratToKill);
+
+
+            }
         }
     }
 }

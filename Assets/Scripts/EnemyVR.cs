@@ -16,10 +16,8 @@ public class EnemyVR : NetworkBehaviour {
     void Start() {
 
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
-        this.gameObject.GetComponent<Renderer>().material.color = Color.white;
-        //add handler when player will trigger button
-        MagnetSensor.OnCardboardTrigger += new MagnetSensor.CardboardTrigger(CmdEnemyInteraction);
-
+        this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+      
     }
 
 
@@ -36,44 +34,31 @@ public class EnemyVR : NetworkBehaviour {
     {
         inAim = true;
         if (!dead)
-            this.gameObject.GetComponent<Renderer>().material.color = Color.red;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerShooting>().ratToKill = this.gameObject;
+        {
+           // this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+
+                if (p.GetComponent<PlayerShooting>())
+                    if (p.GetComponent<PlayerShooting>().VRPlayer)
+                    {
+                        p.GetComponent<PlayerShooting>().TempFunction(this.GetComponent<NetworkIdentity>().netId);
+
+                    }
+            }
+
+            dead = true;
+        }
+       
     }
 
     //Triggered by PointerExit
     public void OutOfPlayersAim()
     {
         inAim = false;
-        if (!dead)
-            this.gameObject.GetComponent<Renderer>().material.color = Color.white;
+        
     }
 
-    //[Command]
-    //public void CmdEnemyInteraction() {
-
-    //    if (inAim) {
-    //        dead = true;
-    //        OnDeath(true);
-    //        RatManager.DestroyRat(this.gameObject);
-    //        //Network.Destroy(GetComponent<NetworkView>().viewID);
-    //    }
-    //}  
-
-    public void CmdEnemyInteraction()
-    {
-
-        if (inAim)
-        {
-            dead = true;
-            OnDeath(true);
-            //RatManager.DestroyRat(GetComponent<NetworkInstanceId>());
-            //Destroy(this);
-        }
-    }
-
-
-    public void OnDeath(bool death) {
-        dead = death;
-        Debug.Log(dead);
-    }
 }

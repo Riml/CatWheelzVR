@@ -13,7 +13,7 @@ public class RatHealth : NetworkBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        CheckNetworkStatus();
+        //CheckNetworkStatus();
 	}
 
     void CheckNetworkStatus() {
@@ -26,7 +26,7 @@ public class RatHealth : NetworkBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
-        networkScript.dead = true;
+        //networkScript.dead = true;
     }
 
 }

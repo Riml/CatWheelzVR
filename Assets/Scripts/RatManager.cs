@@ -7,6 +7,7 @@ public class RatManager : NetworkBehaviour {
 	public GameObject rat;  
 	public float spawnTime;
 	public Transform[] spawnPoints;
+    public int nameCounter=0;
 
 	int spawnPointIndex;
 
@@ -26,6 +27,9 @@ public class RatManager : NetworkBehaviour {
             spawnPointIndex = Random.Range(0, spawnPoints.Length);
 
             GameObject enemy = (GameObject)Instantiate(rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+            nameCounter++;
+            enemy.name = "rat" + nameCounter;
+
             NetworkServer.Spawn(enemy);
         }
     }

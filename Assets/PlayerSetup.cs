@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class PlayerSetup : MonoBehaviour {
+public class PlayerSetup : NetworkBehaviour {
 
     public Camera VRCamera;
     public GameObject reticle;
@@ -15,16 +16,21 @@ public class PlayerSetup : MonoBehaviour {
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
         if (globalData.VRMode)
         {
-            VRCamera.enabled = true;
-            reticle.SetActive(true);
-            globalData.GVR.SetActive(true);
+            if (isLocalPlayer)
+            {
+                VRCamera.enabled = true;
+                reticle.SetActive(true);
+                globalData.GVR.SetActive(true);
+            }
 
 
         }
         else {
-            playerMovement.enabled = true;
-            playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
-
+            if (isLocalPlayer)
+            {
+                playerMovement.enabled = true;
+                playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
+            }
         }
 	
 	}
