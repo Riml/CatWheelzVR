@@ -22,6 +22,7 @@ public class InfestationMeter : MonoBehaviour {
 		colours[1] = new Color(255, 255, 0);
 		colours[2] = new Color(255, 0, 0);
 		loadingBar.GetComponent<Image> ().color = colours[colourIndex];
+		icon.GetComponent<Image> ().color = colours[colourIndex];
 	}
 
 	// Update is called once per frame
@@ -34,6 +35,7 @@ public class InfestationMeter : MonoBehaviour {
 			if (colourIndex < colours.Length - 1) {
 				colourIndex++;
 				loadingBar.GetComponent<Image> ().color = colours[colourIndex];
+				icon.GetComponent<Image> ().color = colours[colourIndex];
 				currentAmount = 0;
 			}
 		}
