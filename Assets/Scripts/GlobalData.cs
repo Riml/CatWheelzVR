@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class GlobalData : MonoBehaviour
 {
     public bool VRMode = false;
     public GameObject GVR;
+    public Image face;
+    public InfestationMeter IM;
+
+    public int ratCounter = 0;
+    public Sprite[] faces;
 
       
     // Use this for initialization
@@ -19,6 +25,29 @@ public class GlobalData : MonoBehaviour
 	void Update () {
 
 
+
 	
 	}
+
+    public void IncreaseInfectationLevel() {
+        ratCounter++;
+        IM.addToValue(10);
+        face.sprite = faces[1];
+        StartCoroutine(resetFace());
+    }
+
+    public void DecreaseInfectationLevel()
+    {
+        ratCounter++;
+        IM.addToValue(-10);
+        face.sprite = faces[2];
+        StartCoroutine(resetFace());
+    }
+
+    IEnumerator resetFace() {
+
+        yield return new WaitForSeconds(1f);
+        face.sprite = faces[0];
+
+    }
 }

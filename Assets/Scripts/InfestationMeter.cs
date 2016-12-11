@@ -26,9 +26,9 @@ public class InfestationMeter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (currentAmount < 100) {
-			currentAmount += speed * Time.deltaTime;
-		}
+		//if (currentAmount < 100) {
+		//	currentAmount += speed * Time.deltaTime;
+		//}
 		loadingBar.GetComponent<Image> ().fillAmount = currentAmount / 100;
 		if (loadingBar.GetComponent<Image> ().fillAmount == 1) {
 			if (colourIndex < colours.Length - 1) {
@@ -49,4 +49,5 @@ public class InfestationMeter : MonoBehaviour {
 	public void setSpeed(int newSpeed){
 		speed = newSpeed;
 	}
+   
 }

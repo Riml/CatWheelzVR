@@ -10,10 +10,11 @@ public class EnemyVR : NetworkBehaviour {
     //[SyncVar(hook = "OnDeath")]
     public bool dead = false;
 
-     private GlobalData globalData;
+    public GlobalData globalData;
     public AudioClip spawnSound;
     public AudioClip deathSound;
 
+   
 
     // Use this for initialization
     void Start() {
@@ -22,7 +23,9 @@ public class EnemyVR : NetworkBehaviour {
         this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
 
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(spawnSound);
-      
+        globalData.IncreaseInfectationLevel();
+
+
     }
 
 
@@ -49,8 +52,10 @@ public class EnemyVR : NetworkBehaviour {
                 if (p.GetComponent<PlayerShooting>())
                     if (p.GetComponent<PlayerShooting>().VRPlayer)
                     {
-                        p.GetComponent<PlayerShooting>().KillRequest(this.GetComponent<NetworkIdentity>().netId);
                         this.gameObject.GetComponent<AudioSource>().PlayOneShot(deathSound);
+                        globalData.DecreaseInfectationLevel();
+                        p.GetComponent<PlayerShooting>().KillRequest(this.GetComponent<NetworkIdentity>().netId);
+                        
 
                     }
             }
