@@ -30,6 +30,8 @@ public class GlobalData : MonoBehaviour
 	}
 
     public void IncreaseInfectationLevel() {
+        if (VRMode)
+            return;
         ratCounter++;
         IM.addToValue(10);
         face.sprite = faces[1];
@@ -38,6 +40,8 @@ public class GlobalData : MonoBehaviour
 
     public void DecreaseInfectationLevel()
     {
+        if (VRMode)
+            return;
         ratCounter++;
         IM.addToValue(-10);
         face.sprite = faces[2];
