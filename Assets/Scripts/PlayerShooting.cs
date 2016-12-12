@@ -7,6 +7,8 @@ public class PlayerShooting : NetworkBehaviour {
     public GameObject laserPrefab;
     public GameObject laserGun;//from which point we will be shooting
     public GameObject myBody;
+    public AudioClip deathSound;
+    public ParticleSystem laser;
     //public Camera mCamera;
 
     //public NetworkInstanceId ratToKill;
@@ -25,7 +27,10 @@ public class PlayerShooting : NetworkBehaviour {
     public void CmdDestroyRat(NetworkInstanceId ratName)
     {
         GameObject go = NetworkServer.FindLocalObject(ratName);
-       
+
+        //this.gameObject.GetComponent<AudioSource>().PlayOneShot(deathSound);
+        globalData.DecreaseInfectationLevel();
+        laser.Play();
         go.GetComponent<Renderer>().material.color = Color.black;
         NetworkServer.Destroy(go);
 
@@ -52,6 +57,7 @@ public class PlayerShooting : NetworkBehaviour {
             if (isLocalPlayer)
             {
                 Debug.Log("Sending Kill Command to : " + ratToKill.ToString());
+                laser.Play();
                 CmdDestroyRat(ratToKill);
 
 

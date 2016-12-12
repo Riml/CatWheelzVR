@@ -13,6 +13,7 @@ public class PlayerSetup : NetworkBehaviour {
     public bool VRplayer;
     public UnityEngine.EventSystems.PhysicsRaycaster raycaster;
     public AudioListener audioLis;
+    public ParticleSystem laserPartice;
 
     
     // Use this for initialization

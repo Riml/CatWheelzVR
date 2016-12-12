@@ -49,9 +49,9 @@ public class TileHandler : MonoBehaviour {
 			for (int j = 0; j < tilesLong; j++) {
 				
 				// new tile location
-				Vector3 tileLocation = new Vector3 (tileGenStartPoint.x + i, 
+				Vector3 tileLocation = new Vector3 ((tileGenStartPoint.x + (i * 2f)), 
 													tileGenStartPoint.y, 
-													tileGenStartPoint.z + j);
+													tileGenStartPoint.z + (j * 2f));
 
 				GameObject newTile = Instantiate (tile, tileLocation, Quaternion.identity) as GameObject;
 

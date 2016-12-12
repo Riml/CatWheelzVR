@@ -15,7 +15,8 @@ public class RatManager : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("SpawnRat", spawnTime, spawnTime);
+        //InvokeRepeating ("SpawnRat", spawnTime, spawnTime);
+        StartCoroutine(SpawnRat());
 	}
 	
 	// Update is called once per frame
@@ -23,7 +24,8 @@ public class RatManager : NetworkBehaviour {
 	
 	}
 
-	void SpawnRat(){
+	IEnumerator SpawnRat(){
+        yield return new WaitForSeconds(spawnTime);
         if (isServer)
         {
 			// Random spawn point
@@ -49,7 +51,12 @@ public class RatManager : NetworkBehaviour {
 			enemy.transform.localScale += new Vector3(ratScale, ratScale, ratScale);
 
             NetworkServer.Spawn(enemy);
+
+            if(spawnTime>1f)
+                spawnTime -= 0.05f;
         }
+      
+        StartCoroutine(SpawnRat());
     }
 
     public void DestroyRat(NetworkInstanceId netID)

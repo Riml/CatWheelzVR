@@ -40,7 +40,7 @@ public class EnemyVR : NetworkBehaviour {
     //Triggered by PointerEnter
     public void InPlayersAim()
     {
-        this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        //this.gameObject.GetComponent<Renderer>().material.color = Color.red;
         inAim = true;
         if (!dead)
         {
@@ -54,8 +54,7 @@ public class EnemyVR : NetworkBehaviour {
                 if (p.GetComponent<PlayerShooting>())
                     if (p.GetComponent<PlayerShooting>().VRPlayer)
                     {
-                        this.gameObject.GetComponent<AudioSource>().PlayOneShot(deathSound);
-                        globalData.DecreaseInfectationLevel();
+                       
                         p.GetComponent<PlayerShooting>().KillRequest(this.GetComponent<NetworkIdentity>().netId);
                         
 

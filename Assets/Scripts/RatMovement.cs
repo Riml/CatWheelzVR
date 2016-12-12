@@ -40,9 +40,12 @@ public class RatMovement : NetworkBehaviour{
 
 	// Use this for initialization
 	void Start () {
+
+        nav = GetComponent<NavMeshAgent>();
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
 		animal = transform.GetChild(0).transform;
 		waitTime = Random.Range(minIdle, maxIdle);
+
 
         if (globalData.VRMode)
         {
@@ -51,9 +54,24 @@ public class RatMovement : NetworkBehaviour{
 
         }
 
-        player = GameObject.FindGameObjectWithTag ("Player").transform;
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+
+            if (p.GetComponent<NetworkIdentity>())
+                if (p.GetComponent<NetworkIdentity>().isLocalPlayer)
+                {
+
+                    player = GameObject.FindGameObjectWithTag("Player").transform;
+
+
+                }
+        }
+
+       
 		destinationTimer = timeTillChangeDest;
-		nav = GetComponent <NavMeshAgent> ();
+		
 	}
 	
 	// Update is called once per frame

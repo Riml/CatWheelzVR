@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GlobalData : MonoBehaviour
@@ -14,12 +15,20 @@ public class GlobalData : MonoBehaviour
 
     public int ratCounter = 0;
     public Sprite[] faces;
+    private float faceChangeTime = 1f;
+
+    public UnityEngine.Networking.NetworkManager networkManager;
+
 
 
     // Use this for initialization
     void Start()
     {
+       
+        networkManager = GameObject.Find("NetworkManager").GetComponent<UnityEngine.Networking.NetworkManager>();
 
+        if(!VRMode)
+            StartCoroutine(StartTheGame());
 
 
     }
@@ -27,7 +36,10 @@ public class GlobalData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ratCounter == 60) {
 
+            StartCoroutine(EndGame());
+        }
 
 
 
@@ -35,23 +47,31 @@ public class GlobalData : MonoBehaviour
 
     public void IncreaseInfectationLevel()
     {
+       
+        faceChangeTime = 1f;
         if (VRMode)
             return;
         ratCounter++;
        
-        IM.addToValue(10);
+        IM.addToValue(5);
         face.sprite = faces[1];
         if (ratCounter % 10 == 0)
+        {
+            faceChangeTime = 2.5f;
             face.sprite = faces[3];
+        }
         StartCoroutine(resetFace());
     }
 
     public void DecreaseInfectationLevel()
     {
+       
+
+        faceChangeTime = 1f;
         if (VRMode)
             return;
         ratCounter--;
-        IM.addToValue(-10);
+        IM.addToValue(-5);
         face.sprite = faces[2];
         StartCoroutine(resetFace());
 
@@ -75,8 +95,43 @@ public class GlobalData : MonoBehaviour
     IEnumerator resetFace()
     {
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(faceChangeTime);
         face.sprite = faces[0];
 
+    }
+
+    IEnumerator EndGame() {
+
+        UpdateScoreSave();
+        face.sprite = faces[2];
+
+        yield return new WaitForSeconds(3f);
+        if (VRMode)
+        {
+            networkManager.StopClient();
+            SceneManager.LoadScene("start_vr");
+           
+        }
+        else {
+            networkManager.StopHost();
+            SceneManager.LoadScene("start_tablet");
+          
+        }
+    }
+
+    IEnumerator StartTheGame() {
+
+        yield return new WaitForSeconds(1.5f);
+        networkManager.StartHost();
+
+
+    }
+
+    private void UpdateScoreSave() {
+        if (ratsKilled > PlayerPrefs.GetInt("HighScore")) {
+            PlayerPrefs.SetInt("HighScore", ratsKilled);
+        }
+
+        PlayerPrefs.Save();
     }
 }
