@@ -9,6 +9,7 @@ public class UIControlsIntro : MonoBehaviour {
     public GameObject playBtn;
     public GameObject howToBtn;
     public GameObject tutorial;
+    public GameObject loading;
     
     
     // Use this for initialization
@@ -24,6 +25,13 @@ public class UIControlsIntro : MonoBehaviour {
     public void StartGame() {
 
         SceneManager.LoadScene("main_tablet");
+    }
+    public void StartGameVR()
+    {
+
+        if (loading)
+            loading.SetActive(true);
+        SceneManager.LoadScene("main_vr");
     }
 
     public void BackBtn()
