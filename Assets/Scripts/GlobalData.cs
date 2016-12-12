@@ -30,6 +30,8 @@ public class GlobalData : MonoBehaviour
 	}
 
     public void IncreaseInfectationLevel() {
+        if (VRMode)
+            return;
         ratCounter++;
         IM.addToValue(10);
         face.sprite = faces[1];
@@ -38,11 +40,24 @@ public class GlobalData : MonoBehaviour
 
     public void DecreaseInfectationLevel()
     {
+        if (VRMode)
+            return;
         ratCounter++;
         IM.addToValue(-10);
         face.sprite = faces[2];
         StartCoroutine(resetFace());
     }
+
+	public void PauseTheGame(){
+		Debug.Log ("Settings pressed");
+		if (Time.timeScale > 0) {
+			Time.timeScale = 0;
+			AudioListener.pause = true;
+		} else {
+			Time.timeScale = 1;
+			AudioListener.pause = false;
+		}
+	}
 
     IEnumerator resetFace() {
 
