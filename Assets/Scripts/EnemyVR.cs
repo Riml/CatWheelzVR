@@ -40,10 +40,12 @@ public class EnemyVR : NetworkBehaviour {
     //Triggered by PointerEnter
     public void InPlayersAim()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = Color.red;
         inAim = true;
         if (!dead)
         {
-           // this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+            Debug.Log("Sending kill command");
+           
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject p in players)
@@ -68,6 +70,7 @@ public class EnemyVR : NetworkBehaviour {
     //Triggered by PointerExit
     public void OutOfPlayersAim()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
         inAim = false;
         
     }
