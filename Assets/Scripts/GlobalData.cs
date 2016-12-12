@@ -9,6 +9,8 @@ public class GlobalData : MonoBehaviour
     public GameObject GVR;
     public Image face;
     public InfestationMeter IM;
+    public Text ratsKilledTxt;
+    public int ratsKilled=0;
 
     public int ratCounter = 0;
     public Sprite[] faces;
@@ -36,8 +38,11 @@ public class GlobalData : MonoBehaviour
         if (VRMode)
             return;
         ratCounter++;
+       
         IM.addToValue(10);
         face.sprite = faces[1];
+        if (ratCounter % 10 == 0)
+            face.sprite = faces[3];
         StartCoroutine(resetFace());
     }
 
@@ -45,10 +50,13 @@ public class GlobalData : MonoBehaviour
     {
         if (VRMode)
             return;
-        ratCounter++;
+        ratCounter--;
         IM.addToValue(-10);
         face.sprite = faces[2];
         StartCoroutine(resetFace());
+
+        ratsKilled++;
+        ratsKilledTxt.text = ratsKilled.ToString();
     }
     public void PauseTheGame()
     {
