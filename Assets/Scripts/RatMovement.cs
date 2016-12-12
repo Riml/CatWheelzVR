@@ -7,7 +7,6 @@ public class RatMovement : NetworkBehaviour{
 	public float destArea;
 	public float timeTillChangeDest;
 	public float runAwayDist;
-	public float normalSpeed;
 	public float runAwaySpeed;
 	public float minIdle = 1;
 	public float maxIdle = 10;
@@ -42,7 +41,6 @@ public class RatMovement : NetworkBehaviour{
 	void Start () {
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
 		animal = transform.GetChild(0).transform;
-		waitTime = Random.Range(minIdle, maxIdle);
 
         if (globalData.VRMode)
         {
@@ -65,17 +63,13 @@ public class RatMovement : NetworkBehaviour{
 
 	void CheckAiStage(){
 		destinationTimer += Time.deltaTime;
-		timer += 1 * Time.deltaTime;
 		distFromPlayer = Vector3.Distance(transform.position, player.position);
-		UpdateNavMeshState ();
 
 		if (distFromPlayer > runAwayDist) {
-			nav.speed = normalSpeed;
-			CheckMoveStage ();
+			NewDecision ();
 		}
 
 		if (distFromPlayer <= runAwayDist){
-			nav.speed = runAwaySpeed;
 			RunAway ();
 		}
 	
@@ -85,7 +79,7 @@ public class RatMovement : NetworkBehaviour{
 		if (destinationTimer >= timeTillChangeDest) {
 			rngDest = transform.position + (Random.insideUnitSphere * destArea);
 			NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
-			destinationTimer = 0;
+			timer = 0;
 		}
 
 		nav.SetDestination(pingPos.position);
@@ -100,8 +94,6 @@ public class RatMovement : NetworkBehaviour{
 		NavMesh.SamplePosition (rngDest, out pingPos, destArea, -1);
 
 		nav.SetDestination(pingPos.position);
-		idle = false;
-		NewDecision ();
 	}
 
 	void  RandomIdle (){
@@ -144,51 +136,6 @@ public class RatMovement : NetworkBehaviour{
 
 			waitTime = Random.Range(minWalk, maxWalk); //get new waitTime
 			idle = false; //animal is now walking
-		}
-	}
-
-	void CheckMoveStage(){
-		if (!kill) {
-			//**IDLE**
-			if (idle == true) {
-				//while timer is less than idle time
-				if (timer < waitTime) {
-					//if idle animation is over, play another one
-					if (!animal.GetComponent<Animation> ().isPlaying) {
-						//Call RandomIdle() function, to detertime next idle animation
-						RandomIdle (); 
-					}
-				} else {
-					//when idle time is up
-					//if idle animation is over, play walk
-					if (!animal.GetComponent<Animation> ().isPlaying) {
-						NewDecision ();
-					}
-				}
-			}
-			//**WALK**
-			//while timer is less than walking time, keep walking
-			else {
-				if (timer >= waitTime) {
-					NewDecision ();
-				}
-			}
-		} else if (!dead){
-			// Play death animation
-			animal.GetComponent<Animation>().CrossFade(deathAnimation); // play death animation
-			animal.GetComponent<Animation>()[deathAnimation].speed = 1; // set death animation speed to 1
-			animal.GetComponent<Animation>()[deathAnimation].wrapMode = WrapMode.Once; // Play death animation once
-
-			idle = false; //animal is now dying
-			dead = true;
-		}
-	}
-
-	void UpdateNavMeshState(){
-		if (idle) {
-			nav.Stop ();
-		} else {
-			nav.Resume ();
 		}
 	}
 }
