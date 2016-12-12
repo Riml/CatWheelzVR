@@ -44,6 +44,17 @@ public class GlobalData : MonoBehaviour
         StartCoroutine(resetFace());
     }
 
+	public void PauseTheGame(){
+		Debug.Log ("Settings pressed");
+		if (Time.timeScale > 0) {
+			Time.timeScale = 0;
+			AudioListener.pause = true;
+		} else {
+			Time.timeScale = 1;
+			AudioListener.pause = false;
+		}
+	}
+
     IEnumerator resetFace() {
 
         yield return new WaitForSeconds(1f);
