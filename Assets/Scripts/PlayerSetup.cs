@@ -35,7 +35,7 @@ public class PlayerSetup : NetworkBehaviour {
             {
 
                 this.gameObject.AddComponent<Rigidbody>();
-                this.gameObject.GetComponent<BoxCollider>().enabled = true;
+                this.gameObject.AddComponent<BoxCollider>();
                 
                 playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
 				Camera.main.gameObject.transform.parent = this.gameObject.transform;
@@ -67,13 +67,13 @@ public class PlayerSetup : NetworkBehaviour {
                 }
         }
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         if (!secondPlayer)
             StartCoroutine(FindSecondPlayer());
         else {
 
             secondPlayer.GetComponent<PlayerSetup>().playerModel.SetActive(false);
-            //secondPlayer.GetComponent<PlayerSetup>().GetComponent<BoxCollider>().enabled = false;
+            secondPlayer.GetComponent<PlayerSetup>().GetComponent<MeshRenderer>().enabled = false;
 
         }
 
