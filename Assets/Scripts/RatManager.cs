@@ -4,9 +4,11 @@ using UnityEngine.Networking;
 
 public class RatManager : NetworkBehaviour {
 
-	public GameObject rat;  
 	public float spawnTime;
 	public Transform[] spawnPoints;
+	public GameObject[] rats;
+	public float minScale;
+	public float maxScale;
     public int nameCounter=0;
 
 	int spawnPointIndex;
@@ -24,11 +26,27 @@ public class RatManager : NetworkBehaviour {
 	void SpawnRat(){
         if (isServer)
         {
+			// Random spawn point
             spawnPointIndex = Random.Range(0, spawnPoints.Length);
 
-            GameObject enemy = (GameObject)Instantiate(rat, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+			// Random rat prefab
+			int r = Random.Range(0, rats.Length);
+			spawnPointIndex = Random.Range(0, spawnPoints.Length);
+
+			// Generate random rat size
+			float ratScale = Random.Range (minScale, maxScale + 1f);
+
+			// Instantiate rat
+			GameObject enemy = (GameObject)Instantiate(rats[r], spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+
+			// Increase counter
             nameCounter++;
-            enemy.name = "rat" + nameCounter;
+            
+			// Name rat
+			enemy.name = "rat" + nameCounter;
+
+			// Transform local scale
+			enemy.transform.localScale += new Vector3(ratScale, ratScale, ratScale);
 
             NetworkServer.Spawn(enemy);
         }
