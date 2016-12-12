@@ -38,7 +38,7 @@ public class PlayerSetup : NetworkBehaviour {
                 this.gameObject.AddComponent<BoxCollider>();
                 
                 playerMovement.joystick = GameObject.Find("Rbgknob").GetComponent<joystick>();
-				Camera.main.gameObject.transform.parent = playerModel.transform;
+				Camera.main.gameObject.transform.parent = this.gameObject.transform;
 
 
             }

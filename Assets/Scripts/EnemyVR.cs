@@ -20,7 +20,7 @@ public class EnemyVR : NetworkBehaviour {
     void Start() {
 
         globalData = GameObject.Find("GlobalData").GetComponent<GlobalData>();
-        this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+       // this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
 
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(spawnSound);
         globalData.IncreaseInfectationLevel();
