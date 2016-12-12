@@ -11,6 +11,8 @@ public class PlayerSetup : NetworkBehaviour {
     private GlobalData globalData;
     public GameObject secondPlayer;
     public bool VRplayer;
+    public UnityEngine.EventSystems.PhysicsRaycaster raycaster;
+    public AudioListener audioLis;
 
     
     // Use this for initialization
@@ -25,7 +27,10 @@ public class PlayerSetup : NetworkBehaviour {
                 VRCamera.enabled = true;
                 reticle.SetActive(true);
                 globalData.GVR.SetActive(true);
-              
+                raycaster.enabled = true;
+                audioLis.enabled = true;
+
+
             }
 
 
